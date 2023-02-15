@@ -8,13 +8,37 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 	
-  <title>UI Test</title>
+  <title>Incremental Game</title>
 </head>
 <body>
-  <center><h1 style="color:white;">Incremental Game</h1>
-  <p style="color:white;">A test incremental game that is very bad</p></center>
-  <button name="coinButton" onclick="collectCoin()">+1 Coin</button>
-  <p>Coins: <span id="Coins">0</span></p>
+  <center><h2 style="color:white;">Incremental Game</h2>
+  <p style="color:white;">made fully and only in school</p></center>
+  
+  <button class="tablink" onclick="openPage('Main', this)" id="defaultOpen" name="headerMain">Main</button>
+  <button style="display: none" id="prestigeShow" class="tablink" onclick="openPage('Prestige', this)" >Prestige</button>
+  <button onclick="saveData()">Save Test</button>
+  
+  <div id="Main" class="tabcontent" >
+  		<p style="color:white;">Coins: <span id="Coins">0</span></p>
+  		<button name="coinButton" onclick="collectCoin()">+1 Coin</button><br><br>
+		<div class="coinUpgrades">
+		<center><h3 style="color:white;"><u>Upgrades</u></h3>
+		<button name="coinButton" onclick="buycu1()"><u>Upgrade 1</u><br>Boost coin gain by x2 per level<br>Level: <span id="cu1">0</span>/10<br>Cost: <span id="cu1Cost">20</span></button>
+		<br>
+		<button id="cu2show" style="display: none" name="coinButton" onclick="buycu2()"><u>Upgrade 2</u><br>Boost coin gain by x1.5 per level<br>Level: <span id="cu2">0</span>/5<br>Cost: <span id="cu2Cost">1000</span></button>
+		<button id="cu3show" style="display: none" name="coinButton" onclick="buycu3()"><u>Upgrade 3</u><br>Double coin gain<br><br>Level: <span id="cu3">0</span>/1<br>Cost: <span id="cu3Cost">25000</span></button>
+		<br>
+		<button id="cu4show"  style="display: none"  name="coinButton" onclick="buycu4()"><u>Upgrade 4</u><br>Buy the autoclicker (every 0.2 seconds)<br>Level: <span id="cu4">0</span>/1<br>Cost: <span id="cu4Cost">40000</span></button>
+		<button id="cu5show"  style="display: none"  name="coinButton" onclick="buycu5()"><u>Upgrade 5</u><br>Boost coin gain by x3 per level<br>Level: <span id="cu5">1</span>/3<br>Cost: <span id="cu5Cost">100000</span></button>
+		<button id="cu6show"  style="display: none"  name="coinButton" onclick="buycu6()"><u>Upgrade 6</u><br>Unlock Prestige<br><br>Level: <span id="cu6">1</span>/1<br>Cost: <span id="cu6Cost">1000000</span></button>
+		</center>
+		
+		</div>
+  </div>
+  
+  <div id="Prestige" class="tabcontent" >
+  		<p style="color:white;">This is a test page for prestige when i add it since i still have to do upgrades</p>
+  </div>
 	
   <link rel="stylesheet" type="text/css" href="style.css" />
   <script type="text/javascript" src="js/break_infinity.js"></script>
