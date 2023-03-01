@@ -1,12 +1,12 @@
-Changelog:
+Changelog:<br>
 Creation!!!
 
-15/02/23:
--Added 6 coin upgrades
+15/02/23: <br>
+-Added 6 coin upgrades <br>
 -The game now saves
 
-1/03/23:
--Added a prestige layer: Prestige
--Added alot of prestige layer
--Added another prestige layer: Pencils
+1/03/23: <br>
+-Added a prestige layer: Prestige <br>
+-Added alot of prestige layer <br>
+-Added another prestige layer: Pencils <br>
 -Pencil has a new feature kind of
