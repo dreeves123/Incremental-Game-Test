@@ -1,8 +1,9 @@
 html{height:100%; width:100%;}
 body {
-background-image: linear-gradient(#4a4a4a, #1a1a1a);
-font-family: 'Patrick Hand', cursive;
-height:100%;
+	background-image: linear-gradient(#4a4a4a, #1a1a1a);
+	font-family: 'Patrick Hand', cursive;
+	background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 [name="coinButton"] {
   background-image: linear-gradient(#4a4a4a, #1a1a1a);
@@ -13,11 +14,76 @@ height:100%;
   height: 5%;
   width: 10%;
 }
+[name="prestigeUpButton"] {
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #3eed3b;
+  border-radius:5px;
+  height: 5%;
+  width: 10%;
+}
+[name="pencilUpButton"] {
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #2b8bff;
+  border-radius:5px;
+  height: 5%;
+  width: 20%;
+}
+[name="prestigeButton"] {
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #3eed3b;
+  border-radius:5px;
+  height: 5%;
+  width: 10%;
+  font-size: 20px;
+}
+[name="pencilButton"] {
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #2b8bff;
+  border-radius:5px;
+  height: 5%;
+  width: 10%;
+  font-size: 15px;
+}
 [name="headerMain"] {
   background-image: linear-gradient(#4a4a4a, #1a1a1a);
   font-family: 'Patrick Hand', cursive;
   color: #FFFFFF;
   border: 3px solid #F4FF57;
+  border-radius:5px;
+  height: 5%;
+  width: 5%;
+}
+[name="headerPrestige"] {
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #3eed3b;
+  border-radius:5px;
+  height: 5%;
+  width: 5%;
+}
+[name="headerPencil"] {
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #2b8bff;
+  border-radius:5px;
+  height: 5%;
+  width: 5%;
+}
+[name="headerChair"] {
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #ad622b;
   border-radius:5px;
   height: 5%;
   width: 5%;
@@ -32,4 +98,32 @@ height:100%;
   height: 40%;
   width: 99%;
   padding-bottom: 4px;
+}
+.prestigeUpgrades{
+  position: center;
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #3eed3b;
+  border-radius:5px;
+  height: 40%;
+  width: 99%;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  margin-top: 4px;
+}
+.pencilUpgrades{
+  position: center;
+  background-image: linear-gradient(#4a4a4a, #1a1a1a);
+  font-family: 'Patrick Hand', cursive;
+  color: #FFFFFF;
+  border: 3px solid #2b8bff;
+  border-radius:5px;
+  height: 40%;
+  width: 48.5%;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  margin-top: 4px;
+  margin-right: 1%;
+  float: left;
 }
