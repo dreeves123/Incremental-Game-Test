@@ -8,14 +8,17 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 	
-  <title>Incremental Game</title>
+  <title>School Incremental</title>
+  <link rel="icon" type="image/x-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROSFzXAxaHROjvHFdODkA0E-JbvImvVaocWJZeKauP6S9E_wqpgcbq21y6e8A:https://www.dictionary.com/e/wp-content/uploads/2018/10/school-emoji.jpeg&s">
 </head>
 <body>
-  <center><h2 style="color:white;">Incremental Game</h2>
+  <center><h2 style="color:white;">School Incremental</h2>
   <p style="color:white;">made fully and only in school</p></center>
   
   <button class="tablink" onclick="openPage('Main', this)" id="defaultOpen" name="headerMain">Main</button>
-  <button style="display: none" id="prestigeShow" class="tablink" onclick="openPage('Prestige', this)" >Prestige</button>
+  <button style="display: none" id="prestigeShow" class="tablink" onclick="openPage('Prestige', this)" name="headerPrestige">Prestige</button>
+  <button style="display: none" id="pencilShow" class="tablink" onclick="openPage('Pencil', this)" name="headerPencil">Pencils</button>
+  <button style="display: none" id="chairShow" class="tablink" onclick="openPage('Chair', this)" name="headerChair">Chairs</button>
   <button onclick="saveData()">Save Test</button>
   
   <div id="Main" class="tabcontent" >
@@ -37,7 +40,74 @@
   </div>
   
   <div id="Prestige" class="tabcontent" >
-  		<p style="color:white;">This is a test page for prestige when i add it since i still have to do upgrades</p>
+  		<p style="color:white; display: inline-block;">Prestige Points: <span id="PPoints">0</span></p>
+  		<center><button name="prestigeButton" onclick="prestige()"><span id="prestigeAmount">Prestige for <span style="color:#3eed3b;">+1</span> Prestige points</span></button>
+		<div class="prestigeUpgrades">
+		<h3 style="color:white;"><u>Upgrades</u></h3>
+		<button name="prestigeUpButton" onclick="buypu1a()"><u>Upgrade 1a</u><br>Boost coin gain by x3<br><br>Level: <span id="pu1a">0</span>/1<br>Cost: <span id="pu1aCost">1</span></button>
+		<button name="prestigeUpButton" onclick="buypu1b()"><u>Upgrade 1b</u><br>Boost prestige point gain by x2<br>Level: <span id="pu1b">0</span>/1<br>Cost: <span id="pu1bCost">1</span></button>
+		<button name="prestigeUpButton" onclick="buypu1c()"><u>Upgrade 1c</u><br>Keep coin upgrade 4 on reset<br>Level: <span id="pu1c">0</span>/1<br>Cost: <span id="pu1cCost">10</span></button>
+		<br>
+		<button id="pu2ashow" style="display: none" name="prestigeUpButton" onclick="buypu2a()"><u>Upgrade 2a</u><br>Boost coin gain by x5<br><br>Level: <span id="pu2a">0</span>/1<br>Cost: <span id="pu2aCost">4</span></button>
+		<button id="pu2bshow" style="display: none" name="prestigeUpButton" onclick="buypu2b()"><u>Upgrade 2b</u><br>Boost prestige point gain by x3<br>Level: <span id="pu2b">0</span>/1<br>Cost: <span id="pu2bCost">8</span></button>
+		<button id="pu2cshow" style="display: none" name="prestigeUpButton" onclick="buypu2c()"><u>Upgrade 2c</u><br>Keep coin upgrade 1 on reset<br>Level: <span id="pu2c">0</span>/1<br>Cost: <span id="pu2cCost">120</span></button>
+		<br>
+		<button id="pu3ashow" style="display: none" name="prestigeUpButton" onclick="buypu3a()"><u>Upgrade 3a</u><br>Prestige points boost coin gain (1 + log4(x))<br>Level: <span id="pu3a">0</span>/1<br>Cost: <span id="pu3aCost">20</span></button>
+		<button id="pu3bshow" style="display: none" name="prestigeUpButton" onclick="buypu3b()"><u>Upgrade 3b</u><br>Boost prestige point gain by x4<br>Level: <span id="pu3b">0</span>/1<br>Cost: <span id="pu3bCost">30</span></button>
+		<button id="pu3cshow" style="display: none" name="prestigeUpButton" onclick="buypu3c()"><u>Upgrade 3c</u><br>Keep coin upgrades 2 and 3 on reset<br>Level: <span id="pu3c">0</span>/1<br>Cost: <span id="pu3cCost">1000</span></button>
+		<br>
+		<button id="pu4ashow" style="display: none" name="prestigeUpButton" onclick="buypu4a()"><u>Upgrade 4a</u><br>Boost coin gain by x8<br><br>Level: <span id="pu4a">0</span>/1<br>Cost: <span id="pu4aCost">175</span></button>
+		<button id="pu4bshow" style="display: none" name="prestigeUpButton" onclick="buypu4b()"><u>Upgrade 4b</u><br>Boost prestige point gain by x5<br>Level: <span id="pu4b">0</span>/1<br>Cost: <span id="pu4bCost">400</span></button>
+		<button id="pu4cshow" style="display: none" name="prestigeUpButton" onclick="buypu4c()"><u>Upgrade 4c</u><br>Keep cu5/6 and gain x3 more prestige points<br>Level: <span id="pu4c">0</span>/1<br>Cost: <span id="pu4cCost">1500</span></button>
+		<br>
+		<button id="pu5show" style="display: none" name="prestigeUpButton" onclick="buypu5()"><u>Upgrade 5</u><br>Unlock Pencils<br><br>Level: <span id="pu5">0</span>/1<br>Cost: <span id="pu5Cost">10000</span></button>
+		</div>
+		</center>
+  </div>
+  
+  <div id="Pencil" class="tabcontent" >
+  <p style="color:white; display: inline-block;">Pencil Sharpenings: <span id="PencilSharpenings">0</span><br>Pencils: <span id="Pencils">0</span></p>
+  <center><button name="pencilButton" onclick="pencil()"><span id="pencilAmount">Convert your pencil sharpenings into <span style="color:#2b8bff;">1</span> Pencils</span></button>
+  </center>
+  <div class="pencilUpgrades">
+  <center>
+  <h3 style="color:white;"><u>Pencil Upgrades</u></h3>
+  <button name="pencilUpButton" onclick="buyp1()"><u>Upgrade 1</u><br>Boost coin gain by x5 and prestige gain by x2<br>Level: <span id="p1">0</span>/1<br>Cost: <span id="p1Cost">1</span></button>
+  <button id="p2show" style="display: none" name="pencilUpButton" onclick="buyp2()"><u>Upgrade 2</u><br>Boost sharpening and coin gain by x3<br>Level: <span id="p2">0</span>/1<br>Cost: <span id="p2Cost">2</span></button>
+  <button id="p3show" style="display: none" name="pencilUpButton" onclick="buyp3()"><u>Upgrade 3</u><br>Boost sharpening and prestige gain by x2<br>Level: <span id="p3">0</span>/1<br>Cost: <span id="p3Cost">3</span></button>
+  <button id="p4show" style="display: none" name="pencilUpButton" onclick="buyp4()"><u>Upgrade 4</u><br>Boost sharpening, coin and prestige gain by x2<br>Level: <span id="p4">0</span>/1<br>Cost: <span id="p4Cost">6</span></button>
+  <button id="p5show" style="display: none" name="pencilUpButton" onclick="buyp5()"><u>Upgrade 5</u><br>Boost sharpening and prestige gain by x5<br>Level: <span id="p5">0</span>/1<br>Cost: <span id="p5Cost">8</span></button>
+  <button id="p6show" style="display: none" name="pencilUpButton" onclick="buyp6()"><u>Upgrade 6</u><br>Boost sharpening, pencil and coin by x2.5<br>Level: <span id="p6">0</span>/1<br>Cost: <span id="p6Cost">10</span></button>
+  <button id="p7show" style="display: none" name="pencilUpButton" onclick="buyp7()"><u>Upgrade 7</u><br>Boost coin and prestige gain by x10<br>Level: <span id="p7">0</span>/1<br>Cost: <span id="p7Cost">25</span></button>
+  <button id="p8show" style="display: none" name="pencilUpButton" onclick="buyp8()"><u>Upgrade 8</u><br>Boost sharpening gain by x4<br>Level: <span id="p8">0</span>/1<br>Cost: <span id="p8Cost">50</span></button>
+  <button id="p9show" style="display: none" name="pencilUpButton" onclick="buyp9()"><u>Upgrade 9</u><br>Boost sharpening and pencil gain by x3<br>Level: <span id="p9">0</span>/1<br>Cost: <span id="p9Cost">50</span></button>
+  <button id="p10show" style="display: none" name="pencilUpButton" onclick="buyp10()"><u>Upgrade 10</u><br>Boost sharpening gain by x10<br>Level: <span id="p10">0</span>/1<br>Cost: <span id="p10Cost">160</span></button>
+  <button id="p11show" style="display: none" name="pencilUpButton" onclick="buyp11()"><u>Upgrade 11</u><br>Boost Pencil and prestige gain by x4<br>Level: <span id="p11">0</span>/1<br>Cost: <span id="p11Cost">400</span></button>
+  <button id="p12show" style="display: none" name="pencilUpButton" onclick="buyp12()"><u>Upgrade 12</u><br>Boost sharpening and pencil gain by x5<br>Level: <span id="p12">0</span>/1<br>Cost: <span id="p12Cost">1.5e3</span></button>
+  <button id="p13show" style="display: none" name="pencilUpButton" onclick="buyp13()"><u>Upgrade 13</u><br>Boost sharpening and pencil gain by x7<br>Level: <span id="p13">0</span>/1<br>Cost: <span id="p13Cost">5e3</span></button>
+  <button id="p14show" style="display: none" name="pencilUpButton" onclick="buyp14()"><u>Upgrade 14</u><br>Boost sharpening and pencil gain by x10<br>Level: <span id="p14">0</span>/1<br>Cost: <span id="p14Cost">2e4</span></button>
+  <button id="p15show" style="display: none" name="pencilUpButton" onclick="buyp15()"><u>Upgrade 15</u><br>Boost prestige gain by x5<br>Level: <span id="p15">0</span>/1<br>Cost: <span id="p15Cost">2e4</span></button>
+  <button id="p16show" style="display: none" name="pencilUpButton" onclick="buyp16()"><u>Upgrade 16</u><br>Unlock chairs<br><br>Level: <span id="p16">0</span>/1<br>Cost: <span id="p16Cost">2e4</span></button>
+  </center>
+  </div>
+  <div class="pencilUpgrades">
+  <center>
+  <h3 style="color:white;"><u>Pencil Sharpening Upgrades</u></h3>
+  <button name="pencilUpButton" onclick="buyps1()"><u>Upgrade 1</u><br>Boost pencil gain by x2<br><br>Level: <span id="ps1">0</span>/1<br>Cost: <span id="ps1Cost">250</span></button>
+  <button id="ps2show" style="display: none" name="pencilUpButton" onclick="buyps2()"><u>Upgrade 2</u><br>Boost pencil and prestige gain by x1.5<br>Level: <span id="ps2">0</span>/1<br>Cost: <span id="ps2Cost">1000</span></button>
+  <button id="ps3show" style="display: none" name="pencilUpButton" onclick="buyps3()"><u>Upgrade 3</u><br>Keep prestige upgrade 1c on reset<br>Level: <span id="ps3">0</span>/1<br>Cost: <span id="ps3Cost">5000</span></button>
+  <button id="ps4show" style="display: none" name="pencilUpButton" onclick="buyps4()"><u>Upgrade 4</u><br>Keep prestige upgrade 2c on reset<br>Level: <span id="ps4">0</span>/1<br>Cost: <span id="ps4Cost">25000</span></button>
+  <button id="ps5show" style="display: none" name="pencilUpButton" onclick="buyps5()"><u>Upgrade 5</u><br>Get 10% of prestige gain every second<br>Level: <span id="ps5">0</span>/1<br>Cost: <span id="ps5Cost">100000</span></button>
+  <button id="ps6show" style="display: none" name="pencilUpButton" onclick="buyps6()"><u>Upgrade 6</u><br>Keep prestige upgrades 3c and 4c on reset<br>Level: <span id="ps6">0</span>/1<br>Cost: <span id="ps6Cost">2500000</span></button>
+  <button id="ps7show" style="display: none" name="pencilUpButton" onclick="buyps7()"><u>Upgrade 7</u><br>Keep prestige upgrades a on reset<br>Level: <span id="ps7">0</span>/1<br>Cost: <span id="ps7Cost">2500000</span></button>
+  <button id="ps8show" style="display: none" name="pencilUpButton" onclick="buyps8()"><u>Upgrade 8</u><br>Keep prestige upgrades b on reset<br>Level: <span id="ps8">0</span>/1<br>Cost: <span id="ps8Cost">2500000</span></button>
+  <button id="ps9show" style="display: none" name="pencilUpButton" onclick="buyps9()"><u>Upgrade 9</u><br>Keep prestige upgrade 5 on reset<br>Level: <span id="ps9">0</span>/1<br>Cost: <span id="ps9Cost">2500000</span></button>
+  </center>
+  </div>
+  </div>
+  
+  <div id="Chair" class="tabcontent" >
+  <p style="color:white">Coming Soon</p>
   </div>
 	
   <link rel="stylesheet" type="text/css" href="style.css" />
