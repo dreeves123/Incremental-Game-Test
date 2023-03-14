@@ -4,6 +4,8 @@ var player = {
 	prestige: new Decimal(0),
 	sharpenings: new Decimal(0),
 	pencils: new Decimal(0),
+	chairs: new Decimal(0),
+	ends: new Decimal(0),
 	//Upgrades//
 	c1: new Decimal(0),
 	c1cost: new Decimal(20),
@@ -95,11 +97,64 @@ var player = {
 	ps8cost: new Decimal(1.5e8),
 	ps9: new Decimal(0),
 	ps9cost: new Decimal(1e9),
+	
+	ch1: new Decimal(0),
+	ch1cost: new Decimal(1),
+	ch2: new Decimal(0),
+	ch2cost: new Decimal(1),
+	ch3: new Decimal(0),
+	ch3cost: new Decimal(2),
+	ch4: new Decimal(0),
+	ch4cost: new Decimal(2),
+	ch5: new Decimal(0),
+	ch5cost: new Decimal(4),
+	ch6: new Decimal(0),
+	ch6cost: new Decimal(6),
+	ch7: new Decimal(0),
+	ch7cost: new Decimal(12),
+	ch8: new Decimal(0),
+	ch8cost: new Decimal(16),
+	ch9: new Decimal(0),
+	ch9cost: new Decimal(16),
+	ch10: new Decimal(0),
+	ch10cost: new Decimal(65),
+	ch11: new Decimal(0),
+	ch11cost: new Decimal(75),
+	ch12: new Decimal(0),
+	ch12cost: new Decimal(110),
+	ch13: new Decimal(0),
+	ch13cost: new Decimal(150),
+	ch14: new Decimal(0),
+	ch14cost: new Decimal(450),
+	ch15: new Decimal(0),
+	ch15cost: new Decimal(1e4),
 	//unlocks//
 	prestigeUnlock: new Decimal(0),
 	pencilUnlock: new Decimal(0),
-	chairUnlock: new Decimal(0)
+	chairUnlock: new Decimal(0),
+	endUnlock: new Decimal(0),
 	
+}
+
+var upgradeBoosts = {
+	c1: {
+		boost: "3",
+		type:"Multiply"
+	}
+}
+//Testing multiple layers and it works
+
+function shorten(value) {
+  let newValue = value;
+  const suffixes = ["", "k", "M", "B","T","Qd","Qn","Sx","Sp","Oc","No","De","UDe","DDe","TDe"];
+  let suffixNum = 0;
+  while (newValue >= 1000) {
+    newValue /= 1000;
+    suffixNum++;
+  }
+  newValue = newValue.toPrecision(3);
+  newValue += suffixes[suffixNum];
+  return newValue;
 }
 
 const dsName = "DSTest1" //"DSTest1" for actual game, "DSTESTING" for ds testing
@@ -115,6 +170,7 @@ var max = "Max"
 	 
 function coinBoost(n){
 n = n.mul(player.c1.add(1))
+n = n.mul(player.ends.add(1))
 if (player.c2.gte(1)){
 n = n.mul(player.c2.mul(1.5))
 }
@@ -150,6 +206,18 @@ n = n.mul(2.5)
 }
 if (player.p7.gte(1)){
 n = n.mul(10)
+}
+if (player.ch1.gte(1)){
+n = n.mul(5)
+}
+if (player.ch3.gte(1)){
+n = n.mul(10)
+}
+if (player.ch6.gte(1)){
+n = n.mul(25)
+}
+if (player.ch12.gte(1)){
+n = n.mul(1e3)
 }
 return n}
 function prestigeBoost(n){
@@ -193,6 +261,25 @@ n = n.mul(4)
 if (player.p15.gte(1)){
 n = n.mul(5)
 }
+if (player.ch1.gte(1)){
+n = n.mul(5)
+}
+if (player.ch2.gte(1)){
+n = n.mul(6)
+}
+if (player.ch5.gte(1)){
+n = n.mul(10)
+}
+if (player.ch7.gte(1)){
+n = n.mul(8)
+}
+if (player.ch11.gte(1)){
+n = n.mul(10)
+}
+if (player.ch13.gte(1)){
+n = n.mul(12)
+}
+n = n.mul(player.ends.add(1))
 return n.floor()}
 function sharpeningBoost(n){
 if (player.p2.gte(1)){
@@ -228,6 +315,13 @@ n = n.mul(7)
 if (player.p14.gte(1)){
 n = n.mul(10)
 }
+if (player.ch1.gte(1)){
+n = n.mul(5)
+}
+if (player.ch4.gte(1)){
+n = n.mul(12)
+}
+n = n.mul(player.ends.add(1))
 return n}
 function pencilBoost(n){
 n = n = (n.div(10e3)).pow(0.2)
@@ -255,12 +349,45 @@ n = n.mul(7)
 if (player.p14.gte(1)){
 n = n.mul(10)
 }
+if (player.ch1.gte(1)){
+n = n.mul(5)
+}
+if (player.ch2.gte(1)){
+n = n.mul(6)
+}
+if (player.ch4.gte(1)){
+n = n.mul(12)
+}
+if (player.ch7.gte(1)){
+n = n.mul(8)
+}
+if (player.ch9.gte(1)){
+n = n.mul(3)
+}
+if (player.ch11.gte(1)){
+n = n.mul(10)
+}
+if (player.ch13.gte(1)){
+n = n.mul(12)
+}
+n = n.mul(player.ends.add(1))
+return n.floor()}
+function chairBoost(n){
+n = (n.div(1e6)).pow(0.2)
+if (player.ch6.gte(1)){
+n = n.mul(2)
+}
+if (player.ch9.gte(1)){
+n = n.mul(3)
+}
+n = n.mul(player.ends.add(1))
 return n.floor()}
 
 function updateText(){
 document.getElementById('Coins').innerHTML = player.coins.round()
+document.getElementById('Ends').innerHTML = player.ends.round()
 if (player.coins.gte(1e3)){
-	document.getElementById('Coins').innerHTML = player.coins.toExponential(2).replace(/e\+?/, 'e');
+	document.getElementById('Coins').innerHTML = shorten(player.coins)
 }
 document.getElementById('cu1').innerHTML = player.c1;
 document.getElementById('cu1Cost').innerHTML = player.c1cost;
@@ -269,31 +396,31 @@ document.getElementById('cu1Cost').innerHTML = "Max";
 document.getElementById('cu2show').style.display = "initial"
 }
 document.getElementById('cu2').innerHTML = player.c2;
-document.getElementById('cu2Cost').innerHTML = player.c2cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('cu2Cost').innerHTML = shorten(player.c2cost)
 if (player.c2.gte(5)) {
 document.getElementById('cu2Cost').innerHTML = "Max";
 document.getElementById('cu3show').style.display = "initial"
 }
 document.getElementById('cu3').innerHTML = player.c3;
-document.getElementById('cu3Cost').innerHTML = player.c3cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('cu3Cost').innerHTML = shorten(player.c3cost)
 if (player.c3.gte(1)) {
 document.getElementById('cu3Cost').innerHTML = "Max";
 document.getElementById('cu4show').style.display = "initial"
 }
 document.getElementById('cu4').innerHTML = player.c4;
-document.getElementById('cu4Cost').innerHTML = player.c4cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('cu4Cost').innerHTML = shorten(player.c4cost)
 if (player.c4.gte(1)) {
 document.getElementById('cu4Cost').innerHTML = "Max";
 document.getElementById('cu5show').style.display = "initial"
 }
 document.getElementById('cu5').innerHTML = player.c5;
-document.getElementById('cu5Cost').innerHTML = player.c5cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('cu5Cost').innerHTML = shorten(player.c5cost)
 if (player.c5.gte(3)) {
 document.getElementById('cu5Cost').innerHTML = "Max";
 document.getElementById('cu6show').style.display = "initial"
 }
 document.getElementById('cu6').innerHTML = player.c6;
-document.getElementById('cu6Cost').innerHTML = player.c6cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('cu6Cost').innerHTML = shorten(player.c6cost)
 if (player.c6.gte(1)){
 document.getElementById('cu6Cost').innerHTML = "Max";
 }
@@ -301,20 +428,43 @@ if (player.c6.gte(1) || player.prestigeUnlock.gte(1)) {
 document.getElementById('prestigeShow').style.display = "initial"
 player.prestigeUnlock = new Decimal(1)
 }
-document.getElementById('prestigeAmount').innerHTML = "You need 1e6+ Coins to prestige."
+document.getElementById('prestigeAmount').innerHTML = "You need 1M+ Coins to prestige."
 if (player.coins.gte(1e6)){
 let gain = prestigeBoost(player.coins)
 if (gain.gte(1e3)){
-	gain = gain.toExponential(1).replace(/e\+?/, 'e');
+	gain = shorten(gain)
 }
 document.getElementById('prestigeAmount').innerHTML = 'Prestige for <span style="color:#3eed3b;">+' + gain + '</span> Prestige points'
+}
+document.getElementById('pencilAmount').innerHTML = 'You need <span style="color:#3eed3b;">10K+</span> Prestige points and <span style="color:#2b8bff;">50+</span> Sharpenings to make a Pencil.'
+if (player.prestige.gte(10e3)){
+	if (player.sharpenings.gte(50)){
+		let gain = pencilBoost(player.prestige)
+		if (gain.gte(1e3)){
+			gain = shorten(gain)
+		}
+		document.getElementById('pencilAmount').innerHTML = 'Make <span style="color:#2b8bff;">+' + gain + '</span> Pencils'
+	}
+}
+
+document.getElementById('chairAmount').innerHTML = 'You need <span style="color:#2b8bff;">1M++</span> Pencils to make a chair.'
+if (player.pencils.gte(1e6)){
+		let gain = chairBoost(player.pencils)
+		if (gain.gte(1e3)){
+			gain = shorten(gain)
+		}
+		document.getElementById('chairAmount').innerHTML = 'Make <span style="color:#ad622b;">+' + gain + '</span> Chairs'
+}
+document.getElementById('endAmount').innerHTML = 'You need <span style="color:#ad622b;">10K+</span> Chairs'
+if (player.chairs.gte(1e4)){
+	document.getElementById('endAmount').innerHTML = 'Reach the end and graduate!'
 }
 
 }
 function updatePrestigeText(){
 document.getElementById('PPoints').innerHTML = player.prestige.round()
 if (player.prestige.gte(1e3)){
-	document.getElementById('PPoints').innerHTML = player.prestige.toExponential(2).replace(/e\+?/, 'e');
+	document.getElementById('PPoints').innerHTML = shorten(player.prestige)
 }
 document.getElementById('pu1a').innerHTML = player.pu1a;
 document.getElementById('pu1aCost').innerHTML = player.pu1acost;
@@ -377,19 +527,19 @@ document.getElementById('pu4bCost').innerHTML = "Max";
 //document.getElementById('pu5bshow').style.display = "initial"
 }
 document.getElementById('pu3c').innerHTML = player.pu3c;
-document.getElementById('pu3cCost').innerHTML = player.pu3ccost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('pu3cCost').innerHTML = shorten(player.pu3ccost)
 if (player.pu3c.gte(1)) {
 document.getElementById('pu3cCost').innerHTML = "Max";
 document.getElementById('pu4cshow').style.display = "initial"
 }
 document.getElementById('pu4c').innerHTML = player.pu4c;
-document.getElementById('pu4cCost').innerHTML = player.pu4ccost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('pu4cCost').innerHTML = shorten(player.pu4ccost)
 if (player.pu4c.gte(1)) {
 document.getElementById('pu4cCost').innerHTML = "Max";
 document.getElementById('pu5show').style.display = "initial"
 }
 document.getElementById('pu5').innerHTML = player.pu5;
-document.getElementById('pu5Cost').innerHTML = player.pu5cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('pu5Cost').innerHTML = shorten(player.pu5cost)
 if (player.pu5.gte(1)) {
 document.getElementById('pu5Cost').innerHTML = "Max";
 document.getElementById('pu5show').style.display = "initial"
@@ -398,26 +548,16 @@ if (player.pu5.gte(1) || player.pencilUnlock.gte(1)) {
 document.getElementById('pencilShow').style.display = "initial"
 player.pencilUnlock = new Decimal(1)
 }
-document.getElementById('pencilAmount').innerHTML = 'You need <span style="color:#3eed3b;">1e4+</span> Prestige points and <span style="color:#2b8bff;">50+</span> Sharpenings to make a Pencil.'
-if (player.prestige.gte(10e3)){
-	if (player.sharpenings.gte(50)){
-		let gain = pencilBoost(player.prestige)
-		if (gain.gte(1e3)){
-			gain = gain.toExponential(1).replace(/e\+?/, 'e');
-		}
-		document.getElementById('pencilAmount').innerHTML = 'Make <span style="color:#2b8bff;">+' + gain + '</span> Pencils'
-	}
-}
 }
 
 function updatePencilText(){
 document.getElementById('PencilSharpenings').innerHTML = player.sharpenings.round()
 if (player.sharpenings.gte(1e3)){
-	document.getElementById('PencilSharpenings').innerHTML = player.sharpenings.toExponential(2).replace(/e\+?/, 'e');
+	document.getElementById('PencilSharpenings').innerHTML = shorten(player.sharpenings)
 }
 document.getElementById('Pencils').innerHTML = player.pencils.round()
 if (player.pencils.gte(1e3)){
-	document.getElementById('Pencils').innerHTML = player.pencils.toExponential(2).replace(/e\+?/, 'e');
+	document.getElementById('Pencils').innerHTML = shorten(player.pencils)
 }
 
 document.getElementById('p1').innerHTML = player.p1;
@@ -487,31 +627,31 @@ document.getElementById('p11Cost').innerHTML = "Max";
 document.getElementById('p12show').style.display = "initial"
 }
 document.getElementById('p12').innerHTML = player.p12;
-document.getElementById('p12Cost').innerHTML = player.p12cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('p12Cost').innerHTML = shorten(player.p12cost)
 if (player.p12.gte(1)) {
 document.getElementById('p12Cost').innerHTML = "Max";
 document.getElementById('p13show').style.display = "initial"
 }
 document.getElementById('p13').innerHTML = player.p13;
-document.getElementById('p13Cost').innerHTML = player.p13cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('p13Cost').innerHTML = shorten(player.p13cost)
 if (player.p13.gte(1)) {
 document.getElementById('p13Cost').innerHTML = "Max";
 document.getElementById('p14show').style.display = "initial"
 }
 document.getElementById('p14').innerHTML = player.p14;
-document.getElementById('p14Cost').innerHTML = player.p14cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('p14Cost').innerHTML = shorten(player.p14cost)
 if (player.p14.gte(1)) {
 document.getElementById('p14Cost').innerHTML = "Max";
 document.getElementById('p15show').style.display = "initial"
 }
 document.getElementById('p15').innerHTML = player.p15;
-document.getElementById('p15Cost').innerHTML = player.p15cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('p15Cost').innerHTML = shorten(player.p15cost)
 if (player.p15.gte(1)) {
 document.getElementById('p15Cost').innerHTML = "Max";
 document.getElementById('p16show').style.display = "initial"
 }
 document.getElementById('p16').innerHTML = player.p16;
-document.getElementById('p16Cost').innerHTML = player.p16cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('p16Cost').innerHTML = shorten(player.p16cost)
 if (player.p16.gte(1)) {
 document.getElementById('p16Cost').innerHTML = "Max";
 //document.getElementById('p16show').style.display = "initial"
@@ -523,59 +663,160 @@ document.getElementById('ps1Cost').innerHTML = "Max";
 document.getElementById('ps2show').style.display = "initial"
 }
 document.getElementById('ps2').innerHTML = player.ps2;
-document.getElementById('ps2Cost').innerHTML = player.ps2cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps2Cost').innerHTML = shorten(player.ps2cost)
 if (player.ps2.gte(1)) {
 document.getElementById('ps2Cost').innerHTML = "Max";
 document.getElementById('ps3show').style.display = "initial"
 }
 document.getElementById('ps3').innerHTML = player.ps3;
-document.getElementById('ps3Cost').innerHTML = player.ps3cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps3Cost').innerHTML = shorten(player.ps3cost)
 if (player.ps3.gte(1)) {
 document.getElementById('ps3Cost').innerHTML = "Max";
 document.getElementById('ps4show').style.display = "initial"
 }
 document.getElementById('ps4').innerHTML = player.ps4;
-document.getElementById('ps4Cost').innerHTML = player.ps4cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps4Cost').innerHTML = shorten(player.ps4cost)
 if (player.ps4.gte(1)) {
 document.getElementById('ps4Cost').innerHTML = "Max";
 document.getElementById('ps5show').style.display = "initial"
 }
 document.getElementById('ps5').innerHTML = player.ps5;
-document.getElementById('ps5Cost').innerHTML = player.ps5cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps5Cost').innerHTML = shorten(player.ps5cost)
 if (player.ps5.gte(1)) {
 document.getElementById('ps5Cost').innerHTML = "Max";
 document.getElementById('ps6show').style.display = "initial"
 }
 document.getElementById('ps6').innerHTML = player.ps6;
-document.getElementById('ps6Cost').innerHTML = player.ps6cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps6Cost').innerHTML = shorten(player.ps6cost)
 if (player.ps6.gte(1)) {
 document.getElementById('ps6Cost').innerHTML = "Max";
 document.getElementById('ps7show').style.display = "initial"
 }
 document.getElementById('ps7').innerHTML = player.ps7;
-document.getElementById('ps7Cost').innerHTML = player.ps7cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps7Cost').innerHTML = shorten(player.ps7cost)
 if (player.ps7.gte(1)) {
 document.getElementById('ps7Cost').innerHTML = "Max";
 document.getElementById('ps8show').style.display = "initial"
 }
 document.getElementById('ps8').innerHTML = player.ps8;
-document.getElementById('ps8Cost').innerHTML = player.ps8cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps8Cost').innerHTML = shorten(player.ps8cost)
 if (player.ps8.gte(1)) {
 document.getElementById('ps8Cost').innerHTML = "Max";
 document.getElementById('ps9show').style.display = "initial"
 }
 document.getElementById('ps9').innerHTML = player.ps9;
-document.getElementById('ps9Cost').innerHTML = player.ps9cost.toExponential(2).replace(/e\+?/, 'e');
+document.getElementById('ps9Cost').innerHTML = shorten(player.ps9cost)
 if (player.ps9.gte(1)) {
 document.getElementById('ps9Cost').innerHTML = "Max";
 //document.getElementById('ps10show').style.display = "initial"
 }
-
 if (player.p16.gte(1) || player.chairUnlock.gte(1)) {
 document.getElementById('chairShow').style.display = "initial"
 player.chairUnlock = new Decimal(1)
 }
 
+}
+
+function updateChairText(){
+document.getElementById('Chairs').innerHTML = player.chairs.round()
+if (player.chairs.gte(1e3)){
+	document.getElementById('Chairs').innerHTML = shorten(player.chairs)
+}
+document.getElementById('ch1').innerHTML = player.ch1;
+document.getElementById('ch1Cost').innerHTML = player.ch1cost;
+if (player.ch1.gte(1)) {
+document.getElementById('ch1Cost').innerHTML = "Max";
+document.getElementById('ch2show').style.display = "initial"
+}
+document.getElementById('ch2').innerHTML = player.ch2;
+document.getElementById('ch2Cost').innerHTML = player.ch2cost;
+if (player.ch2.gte(1)) {
+document.getElementById('ch2Cost').innerHTML = "Max";
+document.getElementById('ch3show').style.display = "initial"
+}
+document.getElementById('ch3').innerHTML = player.ch3;
+document.getElementById('ch3Cost').innerHTML = player.ch3cost;
+if (player.ch3.gte(1)) {
+document.getElementById('ch3Cost').innerHTML = "Max";
+document.getElementById('ch4show').style.display = "initial"
+}
+document.getElementById('ch4').innerHTML = player.ch4;
+document.getElementById('ch4Cost').innerHTML = player.ch4cost;
+if (player.ch4.gte(1)) {
+document.getElementById('ch4Cost').innerHTML = "Max";
+document.getElementById('ch5show').style.display = "initial"
+}
+document.getElementById('ch5').innerHTML = player.ch5;
+document.getElementById('ch5Cost').innerHTML = player.ch5cost;
+if (player.ch5.gte(1)) {
+document.getElementById('ch5Cost').innerHTML = "Max";
+document.getElementById('ch6show').style.display = "initial"
+}
+document.getElementById('ch6').innerHTML = player.ch6;
+document.getElementById('ch6Cost').innerHTML = player.ch6cost;
+if (player.ch6.gte(1)) {
+document.getElementById('ch6Cost').innerHTML = "Max";
+document.getElementById('ch7show').style.display = "initial"
+}
+document.getElementById('ch7').innerHTML = player.ch7;
+document.getElementById('ch7Cost').innerHTML = player.ch7cost;
+if (player.ch7.gte(1)) {
+document.getElementById('ch7Cost').innerHTML = "Max";
+document.getElementById('ch8show').style.display = "initial"
+}
+document.getElementById('ch8').innerHTML = player.ch8;
+document.getElementById('ch8Cost').innerHTML = player.ch8cost;
+if (player.ch8.gte(1)) {
+document.getElementById('ch8Cost').innerHTML = "Max";
+document.getElementById('ch9show').style.display = "initial"
+}
+document.getElementById('ch9').innerHTML = player.ch9;
+document.getElementById('ch9Cost').innerHTML = player.ch9cost;
+if (player.ch9.gte(1)) {
+document.getElementById('ch9Cost').innerHTML = "Max";
+document.getElementById('ch10show').style.display = "initial"
+}
+document.getElementById('ch10').innerHTML = player.ch10;
+document.getElementById('ch10Cost').innerHTML = player.ch10cost;
+if (player.ch10.gte(1)) {
+document.getElementById('ch10Cost').innerHTML = "Max";
+document.getElementById('ch11show').style.display = "initial"
+}
+document.getElementById('ch11').innerHTML = player.ch11;
+document.getElementById('ch11Cost').innerHTML = player.ch11cost;
+if (player.ch11.gte(1)) {
+document.getElementById('ch11Cost').innerHTML = "Max";
+document.getElementById('ch12show').style.display = "initial"
+}
+document.getElementById('ch12').innerHTML = player.ch12;
+document.getElementById('ch12Cost').innerHTML = player.ch12cost;
+if (player.ch12.gte(1)) {
+document.getElementById('ch12Cost').innerHTML = "Max";
+document.getElementById('ch13show').style.display = "initial"
+}
+document.getElementById('ch13').innerHTML = player.ch13;
+document.getElementById('ch13Cost').innerHTML = player.ch13cost;
+if (player.ch13.gte(1)) {
+document.getElementById('ch13Cost').innerHTML = "Max";
+document.getElementById('ch14show').style.display = "initial"
+}
+document.getElementById('ch14').innerHTML = player.ch14;
+document.getElementById('ch14Cost').innerHTML = player.ch14cost;
+if (player.ch14.gte(1)) {
+document.getElementById('ch14Cost').innerHTML = "Max";
+document.getElementById('ch15show').style.display = "initial"
+}
+document.getElementById('ch15').innerHTML = player.ch15;
+document.getElementById('ch15Cost').innerHTML = shorten(player.ch15cost);
+if (player.ch15.gte(1)) {
+document.getElementById('ch15Cost').innerHTML = "Max";
+}
+
+
+if (player.ch15.gte(1) || player.endUnlock.gte(1)) {
+document.getElementById('endShow').style.display = "initial"
+player.endUnlock = new Decimal(1)
+}
 }
 
 function collectCoin() {
@@ -587,7 +828,7 @@ function buycu1(){
 	if (player.c1.lt(10)) {
 		if (player.coins.gte(player.c1cost)) {
 			player.coins = player.coins.sub(player.c1cost)
-			player.c1cost = player.c1cost.add("20")
+			player.c1cost = player.c1cost.add("15")
 			player.c1 = player.c1.add(1)
 		}	
 	}
@@ -597,7 +838,7 @@ function buycu2(){
 	if (player.c2.lt(5)) {
 		if (player.coins.gte(player.c2cost)) {
 			player.coins = player.coins.sub(player.c2cost)
-			player.c2cost = player.c2cost.add("250")
+			player.c2cost = player.c2cost.add("100")
 			player.c2 = player.c2.add(1)
 		}	
 	}
@@ -625,7 +866,7 @@ function buycu5(){
 	if (player.c5.lt(3)) {
 		if (player.coins.gte(player.c5cost)) {
 			player.coins = player.coins.sub(player.c5cost)
-			player.c5cost = player.c5cost.add("50000")
+			player.c5cost = player.c5cost.add("20000")
 			player.c5 = player.c5.add(1)
 		}	
 	}
@@ -985,6 +1226,142 @@ function buyps9(){
 	updatePencilText()
 }
 
+function buych1(){
+	if (player.ch1.lt(1)) {
+		if (player.chairs.gte(player.ch1cost)) {
+			player.chairs = player.chairs.sub(player.ch1cost)
+			player.ch1 = player.ch1.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych2(){
+	if (player.ch2.lt(1)) {
+		if (player.chairs.gte(player.ch2cost)) {
+			player.chairs = player.chairs.sub(player.ch2cost)
+			player.ch2 = player.ch2.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych3(){
+	if (player.ch3.lt(1)) {
+		if (player.chairs.gte(player.ch3cost)) {
+			player.chairs = player.chairs.sub(player.ch3cost)
+			player.ch3 = player.ch3.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych4(){
+	if (player.ch4.lt(1)) {
+		if (player.chairs.gte(player.ch4cost)) {
+			player.chairs = player.chairs.sub(player.ch4cost)
+			player.ch4 = player.ch4.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych5(){
+	if (player.ch5.lt(1)) {
+		if (player.chairs.gte(player.ch5cost)) {
+			player.chairs = player.chairs.sub(player.ch5cost)
+			player.ch5 = player.ch5.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych6(){
+	if (player.ch6.lt(1)) {
+		if (player.chairs.gte(player.ch6cost)) {
+			player.chairs = player.chairs.sub(player.ch6cost)
+			player.ch6 = player.ch6.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych7(){
+	if (player.ch7.lt(1)) {
+		if (player.chairs.gte(player.ch7cost)) {
+			player.chairs = player.chairs.sub(player.ch7cost)
+			player.ch7 = player.ch7.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych8(){
+	if (player.ch8.lt(1)) {
+		if (player.chairs.gte(player.ch8cost)) {
+			player.chairs = player.chairs.sub(player.ch8cost)
+			player.ch8 = player.ch8.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych9(){
+	if (player.ch9.lt(1)) {
+		if (player.chairs.gte(player.ch9cost)) {
+			player.chairs = player.chairs.sub(player.ch9cost)
+			player.ch9 = player.ch9.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych10(){
+	if (player.ch10.lt(1)) {
+		if (player.chairs.gte(player.ch10cost)) {
+			player.chairs = player.chairs.sub(player.ch10cost)
+			player.ch10 = player.ch10.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych11(){
+	if (player.ch11.lt(1)) {
+		if (player.chairs.gte(player.ch11cost)) {
+			player.chairs = player.chairs.sub(player.ch11cost)
+			player.ch11 = player.ch11.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych12(){
+	if (player.ch12.lt(1)) {
+		if (player.chairs.gte(player.ch12cost)) {
+			player.chairs = player.chairs.sub(player.ch12cost)
+			player.ch12 = player.ch12.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych13(){
+	if (player.ch13.lt(1)) {
+		if (player.chairs.gte(player.ch13cost)) {
+			player.chairs = player.chairs.sub(player.ch13cost)
+			player.ch13 = player.ch13.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych14(){
+	if (player.ch14.lt(1)) {
+		if (player.chairs.gte(player.ch14cost)) {
+			player.chairs = player.chairs.sub(player.ch14cost)
+			player.ch14 = player.ch14.add(1)
+		}	
+	}
+	updateChairText()
+}
+function buych15(){
+	if (player.ch15.lt(1)) {
+		if (player.chairs.gte(player.ch15cost)) {
+			player.chairs = player.chairs.sub(player.ch15cost)
+			player.ch15 = player.ch15.add(1)
+		}	
+	}
+	updateChairText()
+}
+
 function resetCoin(){
 		player.coins = new Decimal(0)
 		if (player.pu2c.lt(1)){
@@ -1049,6 +1426,101 @@ function resetPrestige(){
 	player.pu5cost = new Decimal(10e3)}
 }
 
+function resetPencil(){
+	player.pencils = new Decimal(0)
+	player.sharpenings = new Decimal(0)
+	
+	if (player.ch3.lt(1)){
+	player.p1= new Decimal(0)
+	player.p1cost= new Decimal(1)
+	player.p2= new Decimal(0)
+	player.p2cost= new Decimal(2)
+	player.p3= new Decimal(0)
+	player.p3cost= new Decimal(3)
+	player.p4= new Decimal(0)
+	player.p4cost= new Decimal(6)
+	player.p5= new Decimal(0)
+	player.p5cost= new Decimal(8)
+	player.p6= new Decimal(0)
+	player.p6cost= new Decimal(10)
+	player.p7= new Decimal(0)
+	player.p7cost= new Decimal(25)}
+	if (player.ch14.lt(1)){
+	player.p8= new Decimal(0)
+	player.p8cost= new Decimal(50)
+	player.p9= new Decimal(0)
+	player.p9cost= new Decimal(50)
+	player.p10= new Decimal(0)
+	player.p10cost= new Decimal(160)
+	player.p11= new Decimal(0)
+	player.p11cost= new Decimal(400)
+	player.p12= new Decimal(0)
+	player.p12cost= new Decimal(1.5e3)
+	player.p13= new Decimal(0)
+	player.p13cost= new Decimal(5e3)
+	player.p14= new Decimal(0)
+	player.p14cost= new Decimal(2e4)
+	player.p15= new Decimal(0)
+	player.p15cost= new Decimal(1.5e6)
+	player.p16= new Decimal(0)
+	player.p16cost= new Decimal(5e6)}
+	
+	if (player.ch3.lt(1)){
+	player.ps1= new Decimal(0)
+	player.ps1cost= new Decimal(250)
+	player.ps2= new Decimal(0)
+	player.ps2cost= new Decimal(1e3)
+	player.ps3= new Decimal(0)
+	player.ps3cost= new Decimal(5e3)
+	player.ps4= new Decimal(0)
+	player.ps4cost= new Decimal(25e3)
+	player.ps5= new Decimal(0)
+	player.ps5cost= new Decimal(100e3)
+	player.ps6= new Decimal(0)
+	player.ps6cost= new Decimal(2.5e6)}
+	if (player.ch8.lt(1)){
+	player.ps7= new Decimal(0)
+	player.ps7cost= new Decimal(1e8)
+	player.ps8= new Decimal(0)
+	player.ps8cost= new Decimal(1.5e8)
+	player.ps9= new Decimal(0)
+	player.ps9cost= new Decimal(1e9)}
+}
+
+function resetChair(){
+	player.chairs = new Decimal(0)
+	player.ch1= new Decimal(0)
+	player.ch1cost= new Decimal(1)
+	player.ch2= new Decimal(0)
+	player.ch2cost= new Decimal(1)
+	player.ch3= new Decimal(0)
+	player.ch3cost= new Decimal(2)
+	player.ch4= new Decimal(0)
+	player.ch4cost= new Decimal(2)
+	player.ch5= new Decimal(0)
+	player.ch5cost= new Decimal(4)
+	player.ch6= new Decimal(0)
+	player.ch6cost= new Decimal(6)
+	player.ch7= new Decimal(0)
+	player.ch7cost= new Decimal(12)
+	player.ch8= new Decimal(0)
+	player.ch8cost= new Decimal(16)
+	player.ch9= new Decimal(0)
+	player.ch9cost= new Decimal(16)
+	player.ch10= new Decimal(0)
+	player.ch10cost= new Decimal(65)
+	player.ch11= new Decimal(0)
+	player.ch11cost= new Decimal(75)
+	player.ch12= new Decimal(0)
+	player.ch12cost= new Decimal(110)
+	player.ch13= new Decimal(0)
+	player.ch13cost= new Decimal(150)
+	player.ch14= new Decimal(0)
+	player.ch14cost= new Decimal(450)
+	player.ch15= new Decimal(0)
+	player.ch15cost= new Decimal(1e4)
+}
+
 function prestige(){
 	if (player.coins.gte(1e6)){
 		var gain = prestigeBoost(player.coins)
@@ -1074,6 +1546,35 @@ function pencil(){
 	updateText()
 }
 
+function chair(){
+	if (player.pencils.gte(1e6)){
+		var gain = chairBoost(player.pencils)
+		resetPencil()
+		resetPrestige()
+		resetCoin()
+		player.chairs = player.chairs.add(gain)
+	}
+	updateChairText()
+	updatePencilText()
+	updatePrestigeText()
+	updateText()
+}
+
+function end(){
+	if (player.chairs.gte(1e4)){
+		var gain = new Decimal(1)
+		resetChair()
+		resetPencil()
+		resetPrestige()
+		resetCoin()
+		player.ends = player.ends.add(1)
+	}
+	updateChairText()
+	updatePencilText()
+	updatePrestigeText()
+	updateText()
+}
+
 function openPage(pageName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -1093,6 +1594,7 @@ function loadTexts(){
 	updateText()
 	updatePrestigeText()
 	updatePencilText()
+	updateChairText()
 }
 
 loadTexts()
@@ -1104,6 +1606,10 @@ setInterval(function() {
 	if (player.ps5.gte(1)) {
 		player.prestige = player.prestige.add(prestigeBoost(player.coins).div(20))
 		updatePrestigeText()
+	}
+	if (player.ch10.gte(1)) {
+		player.pencils = player.pencils.add(pencilBoost(player.prestige).div(20))
+		updatePencilText()
 	}
 }, 150);
 
