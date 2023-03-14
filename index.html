@@ -15,17 +15,20 @@
   <center><h2 style="color:white;">School Incremental</h2>
   <p style="color:white;">made fully and only in school</p></center>
   
+  <div class="HeaderTabs">
   <button class="tablink" onclick="openPage('Main', this)" id="defaultOpen" name="headerMain">Main</button>
   <button style="display: none" id="prestigeShow" class="tablink" onclick="openPage('Prestige', this)" name="headerPrestige">Prestige</button>
   <button style="display: none" id="pencilShow" class="tablink" onclick="openPage('Pencil', this)" name="headerPencil">Pencils</button>
   <button style="display: none" id="chairShow" class="tablink" onclick="openPage('Chair', this)" name="headerChair">Chairs</button>
+  <button style="display: none" id="endShow" class="tablink" onclick="openPage('End', this)" name="headerEnd">The End</button>
   <button onclick="saveData()">Save Test</button>
+  </div>
   
   <div id="Main" class="tabcontent" >
   		<p style="color:white;">Coins: <span id="Coins">0</span></p>
+		<center>
   		<button name="coinButton" onclick="collectCoin()">+1 Coin</button><br><br>
-		<div class="coinUpgrades">
-		<center><h3 style="color:white;"><u>Upgrades</u></h3>
+		<div class="coinUpgrades"><h3 style="color:white;"><u>Upgrades</u></h3>
 		<button name="coinButton" onclick="buycu1()"><u>Upgrade 1</u><br>Boost coin gain by x2 per level<br>Level: <span id="cu1">0</span>/10<br>Cost: <span id="cu1Cost">20</span></button>
 		<br>
 		<button id="cu2show" style="display: none" name="coinButton" onclick="buycu2()"><u>Upgrade 2</u><br>Boost coin gain by x1.5 per level<br>Level: <span id="cu2">0</span>/5<br>Cost: <span id="cu2Cost">1000</span></button>
@@ -34,9 +37,9 @@
 		<button id="cu4show"  style="display: none"  name="coinButton" onclick="buycu4()"><u>Upgrade 4</u><br>Buy the autoclicker (every 0.2 seconds)<br>Level: <span id="cu4">0</span>/1<br>Cost: <span id="cu4Cost">40000</span></button>
 		<button id="cu5show"  style="display: none"  name="coinButton" onclick="buycu5()"><u>Upgrade 5</u><br>Boost coin gain by x3 per level<br>Level: <span id="cu5">1</span>/3<br>Cost: <span id="cu5Cost">100000</span></button>
 		<button id="cu6show"  style="display: none"  name="coinButton" onclick="buycu6()"><u>Upgrade 6</u><br>Unlock Prestige<br><br>Level: <span id="cu6">1</span>/1<br>Cost: <span id="cu6Cost">1000000</span></button>
-		</center>
 		
 		</div>
+		</center>
   </div>
   
   <div id="Prestige" class="tabcontent" >
@@ -107,7 +110,37 @@
   </div>
   
   <div id="Chair" class="tabcontent" >
-  <p style="color:white">Coming Soon</p>
+  <p style="color:white; display: inline-block;">Chairs: <span id="Chairs">0</span></p>
+  <center><button name="chairButton" onclick="chair()"><span id="chairAmount">Reset for <span style="color:#ad622b;">+1</span> Chairs</span></button>
+  <div class="chairUpgrades">
+  <h3 style="color:white;"><u>Chair Upgrades</u></h3>
+  <button name="chairUpButton" onclick="buych1()"><u>Upgrade 1</u><br>Boost all previous things by x5 <br>Level: <span id="ch1">0</span>/1<br>Cost: <span id="ch1Cost">1</span></button>
+  <button id="ch2show" name="chairUpButton" onclick="buych2()"><u>Upgrade 2</u><br>Boost Prestige and Pencil gain by x6 <br>Level: <span id="ch2">0</span>/1<br>Cost: <span id="ch2Cost">1</span></button>
+  <button id="ch3show" name="chairUpButton" onclick="buych3()"><u>Upgrade 3</u><br>Keep pu1-7 on reset and gain x10 coins<br>Level: <span id="ch3">0</span>/1<br>Cost: <span id="ch3Cost">1</span></button>
+  <button id="ch4show" name="chairUpButton" onclick="buych4()"><u>Upgrade 4</u><br>Boost sharpening and pencil gain by x12<br>Level: <span id="ch4">0</span>/1<br>Cost: <span id="ch4Cost">1</span></button>
+  <button id="ch5show" name="chairUpButton" onclick="buych5()"><u>Upgrade 5</u><br>Keep ps1-6 on reset and gain x10 prestige<br>Level: <span id="ch5">0</span>/1<br>Cost: <span id="ch5Cost">1</span></button><br>
+  <button id="ch6show" name="chairUpButton" onclick="buych6()"><u>Upgrade 6</u><br>Boost chair gain by x2 and coins by x25<br>Level: <span id="ch6">0</span>/1<br>Cost: <span id="ch6Cost">1</span></button>
+  <button id="ch7show" name="chairUpButton" onclick="buych7()"><u>Upgrade 7</u><br>Boost pencil and prestige gain by x8<br>Level: <span id="ch7">0</span>/1<br>Cost: <span id="ch7Cost">1</span></button>
+  <button id="ch8show" name="chairUpButton" onclick="buych8()"><u>Upgrade 8</u><br>Keep ps7-9 on reset<br><br>Level: <span id="ch8">0</span>/1<br>Cost: <span id="ch8Cost">1</span></button>
+  <button id="ch9show" name="chairUpButton" onclick="buych9()"><u>Upgrade 9</u><br>Boost pencil and chair gain by x3<br>Level: <span id="ch9">0</span>/1<br>Cost: <span id="ch9Cost">1</span></button>
+  <button id="ch10show" name="chairUpButton" onclick="buych10()"><u>Upgrade 10</u><br>Get 10% of pencil gain every second<br>Level: <span id="ch10">0</span>/1<br>Cost: <span id="ch10Cost">1</span></button><br>
+  <button id="ch11show" name="chairUpButton" onclick="buych11()"><u>Upgrade 11</u><br>Boost prestige and pencil gain by x10<br>Level: <span id="ch11">0</span>/1<br>Cost: <span id="ch11Cost">1</span></button>
+  <button id="ch12show" name="chairUpButton" onclick="buych12()"><u>Upgrade 12</u><br>Boost coin gain by x1e3<br><br>Level: <span id="ch12">0</span>/1<br>Cost: <span id="ch12Cost">1</span></button>
+  <button id="ch13show" name="chairUpButton" onclick="buych13()"><u>Upgrade 13</u><br>Boost prestige and pencil gain by x12<br>Level: <span id="ch13">0</span>/1<br>Cost: <span id="ch13Cost">1</span></button>
+  <button id="ch14show" name="chairUpButton" onclick="buych14()"><u>Upgrade 14</u><br>Keep pu8-16 on reset<br><br>Level: <span id="ch14">0</span>/1<br>Cost: <span id="ch14Cost">1</span></button>
+  <button id="ch15show" name="chairUpButton" onclick="buych15()"><u>Upgrade 15</u><br>Unlock The End.<br><br>Level: <span id="ch15">0</span>/1<br>Cost: <span id="ch15Cost">1</span></button>
+  </div>
+  </center>
+  </div>
+  
+  <div id="End" class="tabcontent">
+  <center>
+  <p style="color:white; display: inline-block;">You Reached The End <span style="color:#a606c2;" id="Ends">0</span> Times</p><br>
+  <button name="endButton" onclick="end()"><span id="endAmount">Reach the end and graduate!</span></button>
+  <p style="color:white;" >Every time you reach the end increases the multiplier for everything by +1.<br>
+  I am sorry for the short game, the code is really bad and i want to make a new game with alot better code.<br>
+  Link to new game: (not relased yet)</p>
+  </center>
   </div>
 	
   <link rel="stylesheet" type="text/css" href="style.css" />
